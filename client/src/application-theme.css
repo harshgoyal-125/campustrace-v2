@@ -1,0 +1,71 @@
+/* Shared CampusTrace application theme. The public builder keeps its own scope. */
+html:root:root:root:root:root {--ink:#ededf0;--txt:#ededf0;--muted:#a0a0aa;--txt2:#a0a0aa;--accent:#dfb775;--focus:#dfb775;--edge:#303035;--line:#25252b;--line2:#45454c;--surface:#101013;--surface2:#17171c;--bd:#303035;--bd-h:#62626c;--r-card:2px;--r-ctl:2px}
+html:root:root:root:root:root[data-theme=light]{--ink:#17171b;--txt:#17171b;--muted:#65656e;--txt2:#65656e;--accent:#8d601f;--focus:#8d601f;--edge:#d5d5da;--line:#dedee3;--line2:#b5b5bd;--surface:#fff;--surface2:#f0f0f3;--bd:#d5d5da;--bd-h:#777780}
+html:root:root:root:root:root body:not(.reference-mode){font-family:'Geist Variable',system-ui,sans-serif!important;background:#08080a!important;color:var(--ink)!important;line-height:1.6}
+html:root:root:root:root:root[data-theme=light] body:not(.reference-mode){background:#f7f7f8!important}
+html:root:root:root:root:root body:not(.reference-mode)::before,html:root:root:root:root:root body:not(.reference-mode)::after,html:root:root:root:root:root #root::before,html:root:root:root:root:root #root::after{display:none!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.glass,.card,.hero,.banner,.stats,.dialog,.avatar-pop,.auth.card,.form){background:var(--surface)!important;color:var(--ink)!important;border:1px solid var(--edge)!important;border-radius:2px!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;transform:none!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.card,.hero)::before,html:root:root:root:root:root body:not(.reference-mode) :is(.card,.hero)::after{display:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .shell{max-width:1280px;padding:0 32px;margin:auto}
+html:root:root:root:root:root body:not(.reference-mode) .top{min-height:80px;margin:0 0 48px;padding:16px 0;background:transparent!important;border:0!important;border-bottom:1px solid var(--edge)!important;border-radius:0!important;box-shadow:none!important;backdrop-filter:none!important;position:relative;z-index:5}
+html:root:root:root:root:root body:not(.reference-mode) .wrap{gap:24px;padding-bottom:80px}
+html:root:root:root:root:root body:not(.reference-mode) :is(h1,h2,h3){font-weight:500;letter-spacing:-.045em;line-height:1.15;color:var(--ink)!important;text-shadow:none!important;background:none!important;-webkit-text-fill-color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) h2{font-size:clamp(28px,3vw,44px)}
+html:root:root:root:root:root body:not(.reference-mode) h3{font-size:23px}
+html:root:root:root:root:root body:not(.reference-mode) :is(.muted,.small,.who){color:var(--muted)!important;-webkit-text-fill-color:var(--muted)!important;text-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.eyebrow,.kpi span,th){font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.card,.form,.hero,.banner){padding:28px;gap:18px}
+html:root:root:root:root:root body:not(.reference-mode) .card:hover{transform:none!important;box-shadow:none!important;border-color:var(--bd-h)!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(input,select,textarea){background:var(--surface2)!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink)!important;border:1px solid var(--line2)!important;border-radius:2px!important;font:inherit;box-shadow:none!important;min-height:46px;padding:11px 13px;max-width:100%}
+html:root:root:root:root:root body:not(.reference-mode) :is(input,textarea)::placeholder{color:var(--muted)!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(input,select,textarea):focus{outline:2px solid var(--focus)!important;outline-offset:2px;border-color:var(--focus)!important;box-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) input:-webkit-autofill{-webkit-box-shadow:0 0 0 1000px var(--surface2) inset!important;-webkit-text-fill-color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) select option{background:var(--surface);color:var(--ink)}
+html:root:root:root:root:root body:not(.reference-mode) label{color:var(--ink)!important;font-size:12px;font-weight:500;letter-spacing:.015em;gap:8px}
+html:root:root:root:root:root body:not(.reference-mode) .btn{background:var(--ink)!important;color:var(--surface)!important;-webkit-text-fill-color:var(--surface)!important;border:1px solid var(--ink)!important;border-radius:2px!important;font-size:13px;font-weight:600;box-shadow:none!important;filter:none!important;transform:none!important;text-shadow:none!important;padding:12px 20px}
+html:root:root:root:root:root body:not(.reference-mode) :is(.ghost,.theme-toggle,.tabs button,.chips button,.btn.outline){background:transparent!important;color:var(--ink)!important;-webkit-text-fill-color:var(--ink)!important;border:1px solid var(--line2)!important;border-radius:2px!important;box-shadow:none!important;transform:none!important;font-size:12px}
+html:root:root:root:root:root body:not(.reference-mode) :is(.ghost,.theme-toggle,.tabs button,.chips button):hover{background:var(--surface2)!important;border-color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.tabs button[aria-selected=true],.chips button[aria-pressed=true]){background:var(--ink)!important;color:var(--surface)!important;-webkit-text-fill-color:var(--surface)!important;border-color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.link,a){color:var(--ink)!important;text-decoration:none;background:none!important;font-size:13px}
+html:root:root:root:root:root body:not(.reference-mode) :is(.link,a):hover{color:var(--accent)!important}
+html:root:root:root:root:root body:not(.reference-mode) .link[aria-current=page]{color:var(--accent)!important;border-bottom:1px solid var(--accent)!important}
+html:root:root:root:root:root body:not(.reference-mode) .wordmark b{color:var(--muted)!important;background:none!important;-webkit-text-fill-color:var(--muted)!important}
+html:root:root:root:root:root body:not(.reference-mode) .avatar{background:var(--surface2)!important;color:var(--ink)!important;border:1px solid var(--edge)!important;border-radius:2px;box-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .filters{padding:24px;gap:18px}
+html:root:root:root:root:root body:not(.reference-mode) .kpis{gap:0;border:1px solid var(--edge);margin:8px 0}
+html:root:root:root:root:root body:not(.reference-mode) .kpi{padding:28px 20px;border:0!important;border-right:1px solid var(--edge)!important;text-align:left}
+html:root:root:root:root:root body:not(.reference-mode) .kpi:last-child{border-right:0!important}
+html:root:root:root:root:root body:not(.reference-mode) .kpi b{font-size:42px;font-weight:400;letter-spacing:-.05em;line-height:1.2}
+html:root:root:root:root:root body:not(.reference-mode) .stats :is(b,span){text-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .badge{border:1px solid var(--line2)!important;border-radius:2px!important;box-shadow:none!important;font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.03em;font-weight:400;padding:5px 9px;background:var(--surface2)!important;color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) .badge.verified{color:#87d8ad!important;border-color:#37604a!important}
+html:root:root:root:root:root body:not(.reference-mode) .badge.changes_needed{color:#efb38d!important;border-color:#77533c!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(th,td){padding:15px 12px;border-bottom:1px solid var(--edge)}
+html:root:root:root:root:root body:not(.reference-mode) th{background:var(--surface2);font-weight:400}
+html:root:root:root:root:root body:not(.reference-mode) .bar i{background:var(--accent)!important;border-radius:0!important;box-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .auth{max-width:460px;padding:40px;gap:19px}
+html:root:root:root:root:root body:not(.reference-mode) .auth-logo{align-items:flex-start;justify-content:flex-start;gap:18px}
+html:root:root:root:root:root body:not(.reference-mode) .auth h1{font-size:34px}
+html:root:root:root:root:root body:not(.reference-mode) .auth-art{border-left:1px solid var(--edge);padding:32px;min-height:540px}
+html:root:root:root:root:root body:not(.reference-mode) .auth-art h2{font-size:clamp(38px,4vw,60px);font-weight:400}
+html:root:root:root:root:root body:not(.reference-mode) :is(.auth-art .hex,.auth-art .mile){display:none}
+html:root:root:root:root:root body:not(.reference-mode) .auth-art::before{content:'CAMPUSTRACE / VERIFIED PARTICIPATION';font:10px 'Geist Mono',monospace;letter-spacing:.12em;color:var(--accent);margin-bottom:90px}
+html:root:root:root:root:root body:not(.reference-mode) .overlay{background:#000b;backdrop-filter:blur(5px)}
+html:root:root:root:root:root body:not(.reference-mode) .dialog{width:min(560px,100%);padding:30px;gap:20px}
+html:root:root:root:root:root body:not(.reference-mode) .acard .icon{width:80px;height:80px;border-radius:0;filter:grayscale(.65);mix-blend-mode:normal}
+html:root:root:root:root:root body:not(.reference-mode) .hero .art{max-width:250px;animation:none;filter:grayscale(.5);mix-blend-mode:normal}
+html:root:root:root:root:root body:not(.reference-mode) :focus-visible{outline:2px solid var(--focus)!important;outline-offset:3px}
+@media(max-width:700px){html:root:root:root:root:root body:not(.reference-mode) .shell{padding:0 18px}html:root:root:root:root:root body:not(.reference-mode) .top{margin-bottom:28px;gap:14px}html:root:root:root:root:root body:not(.reference-mode) :is(.card,.form,.hero,.banner,.filters,.auth){padding:22px}html:root:root:root:root:root body:not(.reference-mode) .kpis{grid-template-columns:1fr 1fr}html:root:root:root:root:root body:not(.reference-mode) .kpi{border-bottom:1px solid var(--edge)!important;padding:20px}html:root:root:root:root:root body:not(.reference-mode) .kpi b{font-size:34px}html:root:root:root:root:root body:not(.reference-mode) .charts{grid-template-columns:1fr}html:root:root:root:root:root body:not(.reference-mode) .grid{grid-template-columns:1fr}html:root:root:root:root:root body:not(.reference-mode) .row>*{min-width:0}html:root:root:root:root:root body:not(.reference-mode) .navlinks{gap:5px}html:root:root:root:root:root body:not(.reference-mode) .navlinks .link{padding:8px 5px;font-size:11px}}
+@media print{html:root:root:root:root:root body:not(.reference-mode){background:#fff!important;color:#000!important}}
+html:root:root:root:root:root body:not(.reference-mode) .top{position:static!important;inset:auto!important;width:auto!important;transform:none!important;text-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .wrap{padding-top:0!important;margin-top:0!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(.wrap>*,.center>*,.shell>.top,.tabs+*,.grid>.card){animation:none!important;opacity:1!important;transform:none!important}
+html:root:root:root:root:root body:not(.reference-mode) :is(button,input,select,textarea,table,label){font-family:'Geist Variable',system-ui,sans-serif!important}
+html:root:root:root:root:root body:not(.reference-mode) .top [aria-current=page]{box-shadow:none!important;text-shadow:none!important}
+html:root:root:root:root:root body:not(.reference-mode) .prof-av{border-radius:2px;background:var(--surface2)!important;box-shadow:none!important;color:var(--ink)!important}
+html:root:root:root:root:root body:not(.reference-mode) .fx-field{z-index:0;opacity:.55}
+html:root:root:root:root:root body:not(.reference-mode) .scrollbox{overflow-x:auto!important;max-width:100%}
+html:root:root:root:root:root body:not(.reference-mode) .scrollbox table{min-width:740px;table-layout:auto}
+html:root:root:root:root:root body:not(.reference-mode) td .actions,html:root:root:root:root:root body:not(.reference-mode) td.actions{min-width:230px;white-space:nowrap}
+html:root:root:root:root:root body:not(.reference-mode) td.actions button{min-width:55px;white-space:nowrap;padding:8px;font-size:11px}
+@media(max-width:700px){html:root:root:root:root:root body:not(.reference-mode) .form .row>label{flex:1 1 130px;min-width:130px}html:root:root:root:root:root body:not(.reference-mode) .dialog{max-height:calc(100dvh - 32px);overflow-y:auto}}
