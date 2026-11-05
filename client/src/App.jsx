@@ -63,8 +63,8 @@ function Auth({ onAuth, onBack }) {
   return (
     <main className="center split">
       <form className="card auth" onSubmit={go}>
-        <div className="auth-logo"><Mark size={64} /><h1 className="wordmark big">Campus<b>Trace</b></h1></div>
-        <p className="muted">Log in to your verified participation record.</p>
+        <div className="auth-logo"><Mark size={64} /><h1 data-build-copy className="wordmark big">Campus<b>Trace</b></h1></div>
+        <p data-build-copy className="muted">Log in to your verified participation record.</p>
         <label>Email<input type="email" required autoComplete="email" onChange={set('email')} /></label>
         <label>Password<PwInput required autoComplete="current-password" onChange={set('password')} /></label>
         {site && <div ref={box} className="cf ts-box" />}
@@ -92,7 +92,7 @@ function ActivityForm({ initial, onDone, onCancel }) {
   }
   return (
     <form className="glass form" onSubmit={go}>
-      <h2>{initial ? 'Fix and resubmit' : 'Add participation'}</h2>
+      <h2 data-build-copy>{initial ? 'Fix and resubmit' : 'Add participation'}</h2>
       <label>Activity title<input required maxLength={120} value={f.title || ''} onChange={set('title')} /></label>
       <div className="row">
         <label>Type<select value={f.type} onChange={set('type')}>{TYPES.map((t) => <option key={t}>{t}</option>)}</select></label>
@@ -152,7 +152,7 @@ function Student({ user }) {
         <div className="c"><b>{n('changes_needed')}</b><span>! Failed</span></div>
       </section>
       <Sharing />
-      <div className="sechead"><h2>Your activity trail</h2>
+      <div className="sechead"><h2 data-build-copy>Your activity trail</h2>
         <div className="chips" role="group" aria-label="Filter">{['All', 'Technical', 'Cultural', 'Sports'].map((g) => <button key={g} aria-pressed={group === g} onClick={() => { setGroup(g); setTab('activities'); }}>{g}</button>)}</div></div>
       <Err e={err} />
       {tab === 'activities' && (shown.length === 0 ? <p className="empty glass">No activities here yet. Add one with its certificate.</p> : <div className="grid">{shown.map((a) => (
@@ -169,11 +169,11 @@ function Student({ user }) {
         </article>))}</div>)}
       {tab === 'report' && rep && (
         <section className="glass card">
-          <h3>Verified record</h3>
+          <h3 data-build-copy>Verified record</h3>
           {rep.activities.length === 0 ? <p className="muted">Nothing verified yet.</p> : <table><thead><tr><th>Activity</th><th>Type</th><th>Date</th></tr></thead><tbody>{rep.activities.map((a) => <tr key={a.id}><td>{a.title}</td><td>{a.type}</td><td>{fmt(a.date)}</td></tr>)}</tbody></table>}
           <button className="ghost" onClick={() => window.print()}>Print or save as PDF</button>
         </section>)}
-      <section className="glass banner"><div><h2>Your verified record</h2><p className="muted">See and print everything that has been verified.</p></div><button className="btn" onClick={() => { setTab('report'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>View verified record</button></section>
+      <section className="glass banner"><div><h2 data-build-copy>Your verified record</h2><p className="muted">See and print everything that has been verified.</p></div><button className="btn" onClick={() => { setTab('report'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>View verified record</button></section>
     </>
   );
 }
@@ -193,7 +193,7 @@ function ChartPanel({ an }) {
   const [by, setBy] = useState('type');
   const rows = an.charts[by] || [];
   return (
-    <section className="glass card chart"><div className="chart-head"><h3>Verified records by</h3>
+    <section className="glass card chart"><div className="chart-head"><h3 data-build-copy>Verified records by</h3>
       <select aria-label="Chart category" value={by} onChange={(e) => setBy(e.target.value)}>{opts.map(([k, l]) => <option key={k} value={k}>{l}</option>)}</select></div>
       {by === 'month' ? <MonthChart rows={rows} bare /> : <Bars rows={rows} bare />}
     </section>
@@ -268,7 +268,7 @@ function MonthChart({ rows, bare }) {
   const max = Math.max(1, ...rows.map((x) => x.count));
   const MN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return (
-    <div className={bare ? '' : 'glass card chart'}>{!bare && <h3>By month</h3>}
+    <div className={bare ? '' : 'glass card chart'}>{!bare && <h3 data-build-copy>By month</h3>}
       {rows.length === 0 ? <p className="muted">No verified records yet.</p> :
         <div className="cols" role="img" aria-label={'Verified activities per month: ' + rows.map((x) => x.key + ' ' + x.count).join(', ')}>
           {rows.map((x) => <div key={x.key} className="col"><b>{x.count}</b><i style={{ height: (x.count / max) * 100 + '%' }} /><span>{MN[+x.key.slice(5) - 1]} {x.key.slice(2, 4)}</span></div>)}
@@ -303,7 +303,7 @@ function Reports({ user }) {
   const t = an.totals;
   return (
     <>
-      <h2>Verified participation report</h2>
+      <h2 data-build-copy>Verified participation report</h2>
       <p className="muted">Charts count verified records only. {t.inReview} in review and {t.changesNeeded} needing changes are not included.</p>
       <div className="glass filters">
         <label>Year<select value={year} onChange={filt(setYear)}><option value="">All</option>{[1, 2, 3, 4].map((y) => <option key={y} value={y}>{y}</option>)}</select></label>
@@ -315,7 +315,7 @@ function Reports({ user }) {
       </div>
       <div className="kpis"><div className="glass kpi"><b>{an.students}</b><span>Students</span></div><div className="glass kpi"><b>{t.verified}</b><span>Verified</span></div><div className="glass kpi"><b>{t.inReview}</b><span>In review</span></div><div className="glass kpi"><b>{t.changesNeeded}</b><span>Changes needed</span></div></div>
       <ChartPanel an={an} />
-      {an.byCoordinator && <section className="glass card"><h3>By Faculty Coordinator</h3>
+      {an.byCoordinator && <section className="glass card"><h3 data-build-copy>By Faculty Coordinator</h3>
         {an.byCoordinator.length === 0 && <p className="muted">No Faculty Coordinators yet.</p>}
         <div className="tbl scrollbox">{an.byCoordinator.map((c) => <div key={c.email} className="srow"><div><b>{c.name}</b><p className="muted">{c.department}{c.batch ? ' · Batch ' + c.batch : ''}{c.section ? ' · Sec ' + c.section : ''}{c.group ? ' · Grp ' + c.group : ''}</p></div><span><b>{c.verified}</b> verified · {c.students} students</span></div>)}</div></section>}
       <section className="glass card"><h3>Students ({meta.total})</h3>
@@ -340,7 +340,7 @@ function AdminUsers() {
   return (
     <>
       <form key={formVersion} className="glass form" onSubmit={go}>
-        <h3>Create account</h3>
+        <h3 data-build-copy>Create account</h3>
         <label>Name<input required value={f.name || ''} onChange={set('name')} /></label>
         <label>Email<input type="email" required value={f.email || ''} onChange={set('email')} /></label>
         <label>Temporary password (8+)<PwInput minLength={8} required value={f.password || ''} onChange={set('password')} /></label>
@@ -395,7 +395,7 @@ function ResetPw({ u, onCancel, onDone }) {
   return (
     <div className="overlay" onClick={onCancel}>
       <form className="dialog glass" role="dialog" aria-modal="true" aria-labelledby="rp-t" onClick={(e) => e.stopPropagation()} onSubmit={go}>
-        <h2 id="rp-t">Reset password</h2>
+        <h2 data-build-copy id="rp-t">Reset password</h2>
         <p className="muted">Set a temporary password for {u.name} ({u.email}). Share it with them privately.</p>
         <label>Temporary password (8+)<PwInput required minLength={8} maxLength={72} autoComplete="new-password" onChange={(e) => setPw(e.target.value)} /></label>
         <Err e={err} />
@@ -415,7 +415,7 @@ function Forgot({ onBack, mail, site }) {
   async function go(e) { e.preventDefault(); setErr(''); setBusy(true); try { const r = await api('/auth/forgot', { method: 'POST', body: { email, turnstileToken: tok } }); setMsg(r.message); } catch (x) { setErr(x.message); } finally { setBusy(false); if (window.turnstile && wid.current !== null) { window.turnstile.reset(wid.current); setTok(''); } } }
   return (
     <main className="center"><form className="card auth" onSubmit={go}>
-      <div className="auth-logo"><Mark size={56} /><h1 className="wordmark big">Forgot password</h1></div>
+      <div className="auth-logo"><Mark size={56} /><h1 data-build-copy className="wordmark big">Forgot password</h1></div>
       {mail ? <>
         <p className="muted">Enter your account email. If it exists, we send a link that works for 30 minutes.</p>
         <label>Email<input type="email" required autoComplete="email" onChange={(e) => setEmail(e.target.value)} /></label>
@@ -432,7 +432,7 @@ function ResetPage({ token }) {
   async function go(e) { e.preventDefault(); setErr(''); if (pw !== again) return setErr('The two passwords do not match'); try { await api('/auth/reset', { method: 'POST', body: { token, password: pw } }); setDone(true); } catch (x) { setErr(x.message); } }
   return (
     <main className="center"><form className="card auth" onSubmit={go}>
-      <div className="auth-logo"><Mark size={56} /><h1 className="wordmark big">Choose a new password</h1></div>
+      <div className="auth-logo"><Mark size={56} /><h1 data-build-copy className="wordmark big">Choose a new password</h1></div>
       {done ? <><p className="ok" role="status">Password changed. You can log in now.</p><a className="btn" href="/">Go to login</a></> : <>
         <label>New password (8+)<PwInput required minLength={8} maxLength={72} autoComplete="new-password" onChange={(e) => setPw(e.target.value)} /></label>
         <label>New password again<PwInput required minLength={8} maxLength={72} autoComplete="new-password" onChange={(e) => setAgain(e.target.value)} /></label>
@@ -453,7 +453,7 @@ function ChangePassword({ onDone, onCancel }) {
   return (
     <div className="overlay">
       <form className="dialog glass" role="dialog" aria-modal="true" aria-labelledby="cp-t" onSubmit={go}>
-        <h2 id="cp-t">Set your own password</h2>
+        <h2 data-build-copy id="cp-t">Set your own password</h2>
         <p className="muted">{onCancel ? 'Choose a new password (8+ characters).' : 'You are using a password given by the admin. Choose a new one (8+ characters) to continue.'}</p>
         <label>Current password<PwInput required autoComplete="current-password" onChange={set('current')} /></label>
         <label>New password<PwInput required minLength={8} maxLength={72} autoComplete="new-password" onChange={set('next')} /></label>
@@ -476,7 +476,7 @@ function CsvImport({ onDone }) {
   }
   return (
     <form className="glass form" onSubmit={go}>
-      <h3>Import students from CSV</h3>
+      <h3 data-build-copy>Import students from CSV</h3>
       <p className="muted small">Required columns: name, branch, year, semester, email, initial password, group (G1 or G2). Max 200 rows. Good rows are created; bad rows are listed below. Students must change the password at first login.</p>
       <input type="file" name="file" accept=".csv,text/csv" />
       <Err e={err} />
@@ -497,7 +497,7 @@ function ConfirmDelete({ u, onCancel, onConfirm }) {
   return (
     <div className="overlay" onClick={onCancel}>
       <div className="dialog glass" role="dialog" aria-modal="true" aria-labelledby="del-t" onClick={(e) => e.stopPropagation()}>
-        <h2 id="del-t">Delete this user?</h2>
+        <h2 data-build-copy id="del-t">Delete this user?</h2>
         <p className="muted">{u.name} ({u.email}, {roleName(u.role)}) will be removed.{u.role === 'student' ? ' Their activities and certificates will also be deleted.' : ''} This cannot be undone.</p>
         <div className="row"><button className="ghost" autoFocus onClick={onCancel}>Cancel</button><button className="btn" onClick={onConfirm}>Delete</button></div>
       </div>
@@ -541,7 +541,7 @@ function Profile({ user, onBack, onChangePw, onLogout }) {
       <section className="glass hero prof-hero"><div className="prof-av" aria-hidden="true">{initials}</div>
         <div><p className="eyebrow">My profile</p><h2>{user.name}</h2><p className="lead">{user.email}</p><p className="muted small">{roleName(user.role)} · {user.department}</p></div></section>
       <div className="prof-grid">
-        <section className="glass card"><h3>Details</h3><dl className="prof-dl">{rows.map(([k, v]) => <React.Fragment key={k}><dt>{k}</dt><dd>{v}</dd></React.Fragment>)}</dl></section>
+        <section className="glass card"><h3 data-build-copy>Details</h3><dl className="prof-dl">{rows.map(([k, v]) => <React.Fragment key={k}><dt>{k}</dt><dd>{v}</dd></React.Fragment>)}</dl></section>
         <section className="glass card"><h3>{isStu ? 'My activity status' : isCou ? 'Review summary' : 'Activity summary'}</h3>
           {!isStu && <p className="muted small">{scope}</p>}
           {err && <Err e={err} />}{!acts && !err && <p className="muted">Loading…</p>}
@@ -561,7 +561,7 @@ function ConfirmLogout({ onCancel, onConfirm }) {
   return (
     <div className={'overlay' + (closing ? ' out' : '')} onClick={() => close(onCancel)}>
       <div className="dialog glass" role="dialog" aria-modal="true" aria-labelledby="lo-t" onClick={(e) => e.stopPropagation()}>
-        <h2 id="lo-t">Log out?</h2>
+        <h2 data-build-copy id="lo-t">Log out?</h2>
         <p className="muted">You will need to log in again to see your activities.</p>
         <div className="row"><button className="ghost" autoFocus onClick={() => close(onCancel)}>Stay logged in</button><button className="btn" onClick={() => close(onConfirm)}>Log out</button></div>
       </div>
@@ -594,7 +594,7 @@ function Sharing() {
   const prof = shares.find((s) => s.scope === 'profile');
   return (
     <section className="glass card" aria-label="Sharing">
-      <h3>Share your record</h3>
+      <h3 data-build-copy>Share your record</h3>
       <p className="muted small">Links are off until you create one. Anyone with a link sees your name, department, year and verified items only (title, type, organizer, date). No email, no certificate file. You can stop sharing any time.</p>
       <Err e={err} />
       <ShareRow title="My full profile" share={prof} onCreate={act(() => api('/shares', { method: 'POST', body: { scope: 'profile' } }))} onStop={act(() => api('/shares/' + prof.id + '/revoke', { method: 'POST' }))} />
