@@ -17,8 +17,8 @@ const SHAPES = [
   { c: 'spark', x: '55%', y: '13%', s: 18, h: 200, d: 6, dl: -3 },
   { c: 'spark s4', x: '82%', y: '55%', s: 26, h: 280, d: 5.5, dl: -2 },
   { c: 'spark', x: '33%', y: '69%', s: 16, h: 120, d: 6.5, dl: -4 },
-  { c: 'squig', x: '7%', y: '85%', s: 120, h: 0, d: 21, dl: -6 },
-  { c: 'squig q2', x: '63%', y: '47%', s: 100, h: 0, d: 23, dl: -10 },
+  { c: 'squig', x: '2%', y: '88%', s: 120, h: 0, d: 21, dl: -6 },
+  { c: 'squig q2', x: '84%', y: '84%', s: 100, h: 0, d: 23, dl: -10 },
 ];
 
 export default function FxField() {
