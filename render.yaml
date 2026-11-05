@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: participation-passport
+    name: campustrace-v2
     runtime: node
     plan: free
     buildCommand: npm run build
