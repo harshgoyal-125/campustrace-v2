@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { api, setToken, hasToken, openBlob } from './api.js';
+import FxField from './fx.jsx';
 
 const ROLE_LABEL = { student: 'Student', coordinator: 'Faculty Coordinator', hod: 'Head of Department', admin: 'Admin' };
 const roleName = (r) => ROLE_LABEL[r] || r;
@@ -128,6 +129,14 @@ function Splash({ onDone }) {
 }
 
 function Landing({ onLogin }) {
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
+    const els = document.querySelectorAll('.lp-sec, .landing .cta');
+    els.forEach((el) => el.classList.add('rv'));
+    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   const steps = [['01', 'Submit', 'A student adds an activity and uploads the certificate as proof.', 'Active', 'submitted'], ['02', 'Review', 'The Faculty Coordinator checks it, then verifies it or sends it back with a reason.', 'Under review', 'submitted'], ['03', 'Report', 'Reports and CSV exports count verified activities only.', 'Successful', 'verified']];
   const who = [['Students', 'Upload certificates, follow each status, and share a link or QR to your verified items only.'], ['Faculty Coordinators', 'Review the students in your section and group, with their certificates beside each record.'], ['Heads of Department', 'See department-wide verified participation, a per-coordinator breakdown and every student list. Read-only.'], ['Admins', 'Create accounts one by one or from a CSV, set roles and groups, and remove accounts made by mistake.']];
   return (
@@ -687,4 +696,4 @@ function Main() {
   );
 }
 
-export default function App() { const m = location.pathname.match(/^\/p\/([\w-]+)\/?$/); const r = location.pathname.match(/^\/reset\/([a-f0-9]{64})\/?$/); return <>{r ? <ResetPage token={r[1]} /> : m ? <PublicView token={m[1]} /> : <Main />}{(r || m) && <ThemeToggle />}</>; }
+export default function App() { const m = location.pathname.match(/^\/p\/([\w-]+)\/?$/); const r = location.pathname.match(/^\/reset\/([a-f0-9]{64})\/?$/); return <><FxField />{r ? <ResetPage token={r[1]} /> : m ? <PublicView token={m[1]} /> : <Main />}{(r || m) && <ThemeToggle />}</>; }

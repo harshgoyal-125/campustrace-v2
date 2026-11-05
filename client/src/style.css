@@ -717,3 +717,36 @@ html:root:root:root .auth input,html:root:root:root .form input,html:root:root:r
 @media (max-width:700px){html:root:root:root .card,html:root:root:root .auth,html:root:root:root .auth.card,html:root:root:root .form{padding:18px}html:root:root:root .wrap,html:root:root:root main.wrap{padding-left:14px;padding-right:14px;box-sizing:border-box}}
 html[data-theme=dark]:root:root:root .btn:disabled,html[data-theme=dark]:root:root:root button.btn[disabled]{background:rgba(70,100,150,.55)!important;color:#e6f0ff!important;-webkit-text-fill-color:#e6f0ff;text-shadow:none;box-shadow:none!important;cursor:not-allowed}
 html[data-theme=light]:root:root:root .btn:disabled,html[data-theme=light]:root:root:root button.btn[disabled]{background:#c9dcf5!important;color:#27456f!important;-webkit-text-fill-color:#27456f;text-shadow:none;box-shadow:none!important;cursor:not-allowed}
+
+/* ===== v2 neon field (video-inspired floating shapes) ===== */
+.fx-field{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.landing,.shell,.center{position:relative;z-index:1}
+.fx{position:absolute;width:var(--s);height:var(--s);animation:fxDrift var(--d) ease-in-out infinite;will-change:transform}
+.fx.orb{border-radius:50%;background:radial-gradient(circle at 35% 30%,hsl(var(--h) 95% 72% / .85),hsl(var(--h) 90% 60% / .28) 55%,transparent 70%);filter:blur(18px);opacity:.8;animation-name:fxBob}
+.fx.ring{border-radius:50%;border:calc(var(--s) * .13) solid hsl(var(--h) 90% 70% / .75);box-shadow:0 0 18px hsl(var(--h) 90% 65% / .5),inset 0 0 12px hsl(var(--h) 90% 65% / .4)}
+.fx.plus{clip-path:polygon(35% 0,65% 0,65% 35%,100% 35%,100% 65%,65% 65%,65% 100%,35% 100%,35% 65%,0 65%,0 35%,35% 35%);background:linear-gradient(135deg,hsl(var(--h) 95% 70%),hsl(calc(var(--h) + 60) 95% 65%));filter:drop-shadow(0 0 10px hsl(var(--h) 90% 65% / .7))}
+.fx.spark{clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);background:radial-gradient(circle,#fff 0 18%,hsl(var(--h) 95% 75% / .95) 35%,transparent 72%);filter:drop-shadow(0 0 8px hsl(var(--h) 95% 70%));animation-name:fxTwinkle}
+.fx.squig{width:calc(var(--s) * 1.25);height:calc(var(--s) * .42);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' viewBox='0 0 120 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%237cf2ff'/%3E%3Cstop offset='.5' stop-color='%23ff8ae2'/%3E%3Cstop offset='1' stop-color='%23ffd58a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M4 20 Q 19 2 34 20 T 64 20 T 94 20 T 118 20' fill='none' stroke='url(%23g)' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 0 8px rgba(255,138,226,.5));animation-name:fxBob}
+@keyframes fxDrift{0%,100%{transform:translate3d(0,0,0) rotate(0)}25%{transform:translate3d(14px,-18px,0) rotate(6deg)}50%{transform:translate3d(-10px,8px,0) rotate(-4deg)}75%{transform:translate3d(8px,16px,0) rotate(3deg)}}
+@keyframes fxBob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-16px) rotate(5deg)}}
+@keyframes fxTwinkle{0%,100%{transform:scale(.7) rotate(0);opacity:.5}50%{transform:scale(1.15) rotate(90deg);opacity:1}}
+@media (max-width:720px){.fx.orb.o3,.fx.squig.q2,.fx.ring,.fx.plus.p4,.fx.spark.s4{display:none}.fx.orb{filter:blur(14px);opacity:.65}}
+@media (prefers-reduced-motion:reduce){.fx-field{display:none}}
+@media print{.fx-field{display:none}}
+[data-theme=light] .fx-field{opacity:.5}
+
+/* scroll reveal (landing sections) */
+.lp-sec.rv,.landing .cta.rv{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.lp-sec.rv-in,.landing .cta.rv-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.lp-sec.rv,.landing .cta.rv{opacity:1;transform:none;transition:none}}
+
+/* button sheen + stronger glow */
+.btn{position:relative;overflow:hidden;transition:box-shadow .25s ease,transform .25s ease}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 32%,rgba(255,255,255,.5) 50%,transparent 68%);transform:translateX(-130%);transition:transform .55s ease;pointer-events:none}
+.btn:hover::after{transform:translateX(130%)}
+.btn:hover{box-shadow:0 0 34px rgba(124,242,255,.65);transform:translateY(-1px)}
+@media (prefers-reduced-motion:reduce){.btn::after{display:none}.btn:hover{transform:none}}
+
+/* landing headline: slow shifting gradient */
+.lp-copy h1 em{background:linear-gradient(90deg,#818CF8,#22D3EE 35%,#ff8ae2 70%,#818CF8);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fxHue 9s linear infinite}
+@keyframes fxHue{to{background-position:220% 0}}
