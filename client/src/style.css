@@ -750,3 +750,45 @@ html[data-theme=light]:root:root:root .btn:disabled,html[data-theme=light]:root:
 /* landing headline: slow shifting gradient */
 .lp-copy h1 em{background:linear-gradient(90deg,#818CF8,#22D3EE 35%,#ff8ae2 70%,#818CF8);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:fxHue 9s linear infinite}
 @keyframes fxHue{to{background-position:220% 0}}
+
+/* Reference correction: charcoal editorial layout, paper-particle flock. */
+[data-theme=dark]{--ink:#f4f4f1;--muted:#a7aaa9;--accent:#e6bd72;--edge:#343838;--line:#292d2d;--line2:#444949;--surface:#202424;--surface2:#252929}
+[data-theme=dark] body{background:#171b1c!important}
+[data-theme=dark] body::before,[data-theme=dark] body::after{display:none!important}
+.fx-field{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;opacity:1}
+[data-theme=dark] .top{background:rgba(23,27,28,.96)!important;backdrop-filter:none;border-color:#333737}
+[data-theme=dark] .glass,[data-theme=dark] .card,[data-theme=dark] .hero,[data-theme=dark] .banner,[data-theme=dark] .cta{background:#1b2021;border:1px solid #343a3b;border-radius:4px;box-shadow:none;backdrop-filter:none}
+[data-theme=dark] .step,[data-theme=dark] .role,[data-theme=dark] .state{background:transparent;box-shadow:none;border-radius:3px;border-color:#343a3b}
+[data-theme=dark] .btn,[data-theme=dark] .auth .btn{background:#f1f1ed;color:#181c1d;border:1px solid #f1f1ed;border-radius:2px;box-shadow:none;font-weight:600}
+[data-theme=dark] .btn:hover{background:#fff;box-shadow:none}
+.btn::after{display:none}
+[data-theme=dark] .ghost,[data-theme=dark] .btn.outline{background:transparent;color:#eee;border:1px solid #565c5c;border-radius:2px;box-shadow:none}
+[data-theme=dark] input,[data-theme=dark] select,[data-theme=dark] textarea{background:#171b1c;border-color:#484f50;border-radius:3px}
+.lp-copy h1{letter-spacing:-.055em;font-size:clamp(2.7rem,5.5vw,5rem);max-width:11em}
+[data-theme=dark] .lp-copy h1 em,[data-theme=dark] .hero h2 em{background:none;color:#a6afb0;-webkit-text-fill-color:#a6afb0;animation:none}
+[data-theme=dark] .lp-copy .lead{color:#bec3c3;font-size:1rem;line-height:1.65;max-width:31em}
+[data-theme=dark] .pill-badge{background:none;border:none;padding:0;color:#d6ad62;border-radius:0;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase}
+[data-theme=dark] .eyebrow{color:#d6ad62;font-size:.67rem}
+.lp{gap:90px}.lp-hero{min-height:660px;padding-top:50px;gap:64px}
+.lp-visual{min-height:360px}.reference-sculpture{position:relative;width:250px;height:300px;perspective:650px;transform-style:preserve-3d;animation:sculptTurn 15s ease-in-out infinite}
+.sculpt-loop{position:absolute;left:58px;top:30px;width:125px;height:235px;border:19px solid #178bd1;border-radius:50%;box-shadow:inset 4px 2px 7px #93ddff,5px 7px 7px #072f4c;transform:rotate(-20deg) rotateY(35deg)}
+.loop-b{border-color:#edbd30;transform:rotate(57deg) rotateY(54deg);height:180px;top:65px;box-shadow:inset 3px 2px 6px #fff4a2,4px 7px 6px #625112}
+.loop-c{border-color:#238bd9;transform:rotate(-65deg) rotateY(-40deg);height:180px;top:55px}
+.sculpt-core{position:absolute;left:91px;top:115px;filter:none;transform:rotate(-8deg)}
+@keyframes sculptTurn{0%,100%{transform:rotate(-7deg) rotateY(-12deg)}50%{transform:rotate(9deg) rotateY(20deg)}}
+[data-theme=dark] .badge,[data-theme=dark] .stepno{box-shadow:none;background:#282e2f;color:#dce1e1;border-color:#454c4d;border-radius:3px}
+[data-theme=dark] .mark{filter:none}
+@media(max-width:900px){.lp-hero{grid-template-columns:1fr;min-height:0;padding-top:42px;gap:18px}.lp-visual{order:0;min-height:260px}.reference-sculpture{transform:scale(.8);margin:-20px 0}.lp-copy h1{font-size:clamp(2.7rem,8vw,4rem);max-width:11em}.lp-copy{padding-right:28px}.lp{gap:64px}.fx-field{z-index:2}}
+@media(prefers-reduced-motion:reduce){.fx-field{display:none}.reference-sculpture,.lp-copy h1 em{animation:none!important}}
+@media print{.fx-field,.reference-sculpture{display:none}}
+/* Override legacy high-specificity glass theme rules for the reference palette. */
+html[data-theme=dark]:root:root:root:root #root::before,html[data-theme=dark]:root:root:root:root #root::after{display:none!important}
+html[data-theme=dark]:root:root:root:root .top{background:#171b1c!important;box-shadow:none!important}
+html[data-theme=dark]:root:root:root:root .btn{background:#f1f1ed!important;color:#171b1c!important;-webkit-text-fill-color:#171b1c!important;border-radius:2px!important;box-shadow:none!important;text-shadow:none!important;border:1px solid #f1f1ed!important}
+html[data-theme=dark]:root:root:root:root .ghost,html[data-theme=dark]:root:root:root:root .btn.outline{background:transparent!important;color:#eee!important;-webkit-text-fill-color:#eee!important;box-shadow:none!important;border-radius:2px!important;border:1px solid #535a5b!important}
+html[data-theme=dark]:root:root:root:root .pill-badge{background:none!important;border:0!important;color:#d6ad62!important;-webkit-text-fill-color:#d6ad62!important;padding:0!important;border-radius:0!important}
+html[data-theme=dark]:root:root:root:root .eyebrow{color:#d6ad62!important;-webkit-text-fill-color:#d6ad62!important}
+html[data-theme=dark]:root:root:root:root .glass,html[data-theme=dark]:root:root:root:root .card,html[data-theme=dark]:root:root:root:root .hero,html[data-theme=dark]:root:root:root:root .cta{background:#1b2021!important;border:1px solid #343a3b!important;border-radius:4px!important;box-shadow:none!important;backdrop-filter:none!important}
+html[data-theme=dark]:root:root:root:root .card::before,html[data-theme=dark]:root:root:root:root .hero::before{display:none!important}
+html[data-theme=dark]:root:root:root:root .muted{color:#a7aaa9!important;-webkit-text-fill-color:#a7aaa9!important}
+@media(max-width:720px){.lp-copy{padding-right:42px}.lp-copy .row,.lp-copy .small{margin-right:-42px}.lp-copy .row{padding-right:15px}}

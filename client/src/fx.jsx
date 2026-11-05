@@ -1,32 +1,45 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
-// Ambient floating-shape field (v2 "neon particles" style).
-// Pure CSS motion: transform/opacity only, GPU-friendly.
-// Hidden entirely for reduced motion and print; fewer shapes on small screens.
-const SHAPES = [
-  { c: 'orb', x: '5%', y: '10%', s: 280, h: 190, d: 26, dl: 0 },
-  { c: 'orb', x: '76%', y: '6%', s: 210, h: 315, d: 30, dl: -8 },
-  { c: 'orb o3', x: '58%', y: '74%', s: 320, h: 28, d: 34, dl: -14 },
-  { c: 'ring', x: '87%', y: '38%', s: 92, h: 265, d: 22, dl: -3 },
-  { c: 'ring', x: '11%', y: '60%', s: 72, h: 150, d: 24, dl: -11 },
-  { c: 'plus', x: '24%', y: '28%', s: 26, h: 190, d: 18, dl: -5 },
-  { c: 'plus', x: '69%', y: '20%', s: 20, h: 45, d: 20, dl: -9 },
-  { c: 'plus', x: '40%', y: '83%', s: 30, h: 320, d: 22, dl: -2 },
-  { c: 'plus p4', x: '91%', y: '66%', s: 18, h: 160, d: 19, dl: -13 },
-  { c: 'spark', x: '15%', y: '43%', s: 22, h: 55, d: 5, dl: -1 },
-  { c: 'spark', x: '55%', y: '13%', s: 18, h: 200, d: 6, dl: -3 },
-  { c: 'spark s4', x: '82%', y: '55%', s: 26, h: 280, d: 5.5, dl: -2 },
-  { c: 'spark', x: '33%', y: '69%', s: 16, h: 120, d: 6.5, dl: -4 },
-  { c: 'squig', x: '2%', y: '88%', s: 120, h: 0, d: 21, dl: -6 },
-  { c: 'squig q2', x: '84%', y: '84%', s: 100, h: 0, d: 23, dl: -10 },
-];
-
+// Small colored paper-like particles, following the supplied reference.
 export default function FxField() {
-  return (
-    <div className="fx-field" aria-hidden="true">
-      {SHAPES.map((s, i) => (
-        <i key={i} className={'fx ' + s.c} style={{ left: s.x, top: s.y, '--s': s.s + 'px', '--h': s.h, '--d': s.d + 's', animationDelay: s.dl + 's' }} />
-      ))}
-    </div>
-  );
+  const ref = useRef(null);
+  useEffect(() => {
+    const canvas = ref.current, ctx = canvas.getContext('2d');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let raf, w = 0, h = 0, last = 0, elapsed = 0;
+    const colors = ['#69c9ec', '#edb9cb', '#d9bc68', '#85cbb5', '#a8b6e3'];
+    const particles = Array.from({ length: 32 }, (_, i) => ({ phase: i * 2.399, spread: 22 + (i * 37 % 130), speed: .7 + (i % 5) * .08, color: colors[i % colors.length], size: 3 + i % 4 }));
+    const resize = () => {
+      w = innerWidth; h = innerHeight;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const draw = time => {
+      const dt = Math.min((time - last) / 1000 || 0, .05); last = time;
+      if (!document.hidden) elapsed += dt;
+      ctx.clearRect(0, 0, w, h);
+      const mobile = w < 720, t = elapsed;
+      const cx = mobile ? w * .88 : w * .82;
+      const cy = h * (.40 + .22 * Math.sin(t * .27));
+      particles.slice(0, mobile ? 20 : 32).forEach((p, i) => {
+        const a = p.phase + t * p.speed * .5;
+        // On phones the flock stays at the sides, clear of reading/input areas.
+        let x = mobile ? w - 7 + Math.cos(a) * 3 : cx + Math.cos(a) * p.spread;
+        let y = cy + Math.sin(a * 1.3) * p.spread;
+        if (mobile && i > 13) { x = 5 + Math.cos(a) * 2; y = h * .65 + Math.sin(a) * 100; }
+        const angle = a + Math.PI / 2;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(angle);
+        ctx.fillStyle = p.color; ctx.globalAlpha = .82;
+        ctx.beginPath(); ctx.moveTo(p.size, 0); ctx.lineTo(-p.size, -p.size * .57); ctx.lineTo(-p.size * .35, 0); ctx.lineTo(-p.size, p.size * .57); ctx.closePath(); ctx.fill();
+        ctx.restore();
+      });
+      if (!motion.matches) raf = requestAnimationFrame(draw);
+    };
+    const start = () => { cancelAnimationFrame(raf); last = 0; ctx.clearRect(0,0,w,h); if (!motion.matches) raf = requestAnimationFrame(draw); };
+    resize(); start();
+    addEventListener('resize', resize); motion.addEventListener('change', start);
+    return () => { cancelAnimationFrame(raf); removeEventListener('resize', resize); motion.removeEventListener('change', start); };
+  }, []);
+  return <canvas ref={ref} className="fx-field" aria-hidden="true" />;
 }

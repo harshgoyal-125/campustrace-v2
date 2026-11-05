@@ -152,9 +152,7 @@ function Landing({ onLogin }) {
             <p className="muted small">Accounts are created by your college administrator.</p>
           </div>
           <div className="lp-visual" aria-hidden="true">
-            <div className="orb" />
-            <div className="vcard"><Mark size={96} /><div className="vword">Campus<b>Trace</b></div><div className="vtag">Learn • Verify • Grow</div></div>
-            <span className="fchip c1"><i /> Successful</span><span className="fchip c2"><i /> Active</span><span className="fchip c3"><i /> Failed</span>
+            <div className="reference-sculpture"><span className="sculpt-loop loop-a" /><span className="sculpt-loop loop-b" /><span className="sculpt-loop loop-c" /><div className="sculpt-core"><Mark size={72} /></div></div>
           </div>
         </section>
         <section id="how" className="lp-sec"><p className="eyebrow">How it works</p><h2>From certificate to verified record in three steps</h2>
@@ -377,25 +375,26 @@ function Reports({ user }) {
 }
 
 function AdminUsers() {
-  const blank = { role: 'student', department: 'IT', year: 1 };
+  const blank = { role: 'student', department: 'IT', year: 1, name: '', email: '', password: '', semester: '', enrollmentNo: '', rollNo: '', section: '', batch: '', group: '' };
+  const [formVersion, setFormVersion] = useState(0);
   const [f, setF] = useState(blank); const [msg, setMsg] = useState(''); const [err, setErr] = useState(''); const [users, setUsers] = useState([]); const [meta, setMeta] = useState({ page: 1, pages: 1, total: 0 }); const [page, setPage] = useState(1); const [uq, setUq] = useState(''); const [urole, setUrole] = useState(''); const [del, setDel] = useState(null); const [edit, setEdit] = useState(null); const [rst, setRst] = useState(null);
   const set = (k) => (e) => setF({ ...f, [k]: e.target.value });
   const load = () => api('/admin/users?' + new URLSearchParams({ page, pageSize: 20, ...(uq && { q: uq }), ...(urole && { role: urole }) })).then((r) => { setUsers(r.users); setMeta({ page: r.page, pages: r.pages, total: r.total }); }).catch((x) => setErr(x.message));
   useEffect(() => { const t = setTimeout(load, uq ? 250 : 0); return () => clearTimeout(t); }, [page, uq, urole]);
-  async function go(e) { e.preventDefault(); setErr(''); setMsg(''); try { const r = await api('/admin/users', { method: 'POST', body: f }); setMsg('Created ' + roleName(r.user.role) + ': ' + r.user.email); setF(blank); e.target.reset(); load(); } catch (x) { setErr(x.message); } }
+  async function go(e) { e.preventDefault(); setErr(''); setMsg(''); try { const r = await api('/admin/users', { method: 'POST', body: f }); setMsg('Created ' + roleName(r.user.role) + ': ' + r.user.email); setF({ ...blank }); setFormVersion(v => v + 1); load(); } catch (x) { setErr(x.message); } }
   async function remove() { const u = del; setDel(null); setErr(''); setMsg(''); try { const r = await api('/admin/users/' + u.id, { method: 'DELETE' }); setMsg('Deleted ' + u.email + (r.activitiesRemoved ? ' and ' + r.activitiesRemoved + ' record(s)' : '')); load(); } catch (x) { setErr(x.message); } }
   const stu = f.role === 'student', cou = f.role === 'coordinator';
   return (
     <>
-      <form className="glass form" onSubmit={go}>
+      <form key={formVersion} className="glass form" onSubmit={go}>
         <h3>Create account</h3>
-        <label>Name<input required onChange={set('name')} /></label>
-        <label>Email<input type="email" required onChange={set('email')} /></label>
-        <label>Temporary password (8+)<PwInput minLength={8} required onChange={set('password')} /></label>
+        <label>Name<input required value={f.name || ''} onChange={set('name')} /></label>
+        <label>Email<input type="email" required value={f.email || ''} onChange={set('email')} /></label>
+        <label>Temporary password (8+)<PwInput minLength={8} required value={f.password || ''} onChange={set('password')} /></label>
         <div className="row"><label>Role<select value={f.role} onChange={set('role')}>{['student', 'coordinator', 'hod'].map((r) => <option key={r} value={r}>{roleName(r)}</option>)}</select></label>
           <label>Department<select value={f.department} onChange={set('department')}>{DEPTS.map((d) => <option key={d}>{d}</option>)}</select></label></div>
-        {stu && <div className="row"><label>Year<select value={f.year} onChange={set('year')}>{[1, 2, 3, 4].map((y) => <option key={y}>{y}</option>)}</select></label><label>Semester<select value={f.semester || ''} onChange={set('semester')}><option value="">-</option>{[1, 2, 3, 4, 5, 6, 7, 8].map((x) => <option key={x}>{x}</option>)}</select></label><label>Enrollment number<input onChange={set('enrollmentNo')} /></label><label>Roll number<input onChange={set('rollNo')} /></label></div>}
-        {(stu || cou) && <div className="row">{cou && <label>Batch (optional)<input onChange={set('batch')} /></label>}<label>Section<input onChange={set('section')} /></label><label>Group<select value={f.group || ''} onChange={set('group')}><option value="">-</option>{GROUPS.map((g) => <option key={g}>{g}</option>)}</select></label></div>}
+        {stu && <div className="row"><label>Year<select value={f.year} onChange={set('year')}>{[1, 2, 3, 4].map((y) => <option key={y}>{y}</option>)}</select></label><label>Semester<select value={f.semester || ''} onChange={set('semester')}><option value="">-</option>{[1, 2, 3, 4, 5, 6, 7, 8].map((x) => <option key={x}>{x}</option>)}</select></label><label>Enrollment number<input value={f.enrollmentNo || ''} onChange={set('enrollmentNo')} /></label><label>Roll number<input value={f.rollNo || ''} onChange={set('rollNo')} /></label></div>}
+        {(stu || cou) && <div className="row">{cou && <label>Batch (optional)<input value={f.batch || ''} onChange={set('batch')} /></label>}<label>Section<input value={f.section || ''} onChange={set('section')} /></label><label>Group<select value={f.group || ''} onChange={set('group')}><option value="">-</option>{GROUPS.map((g) => <option key={g}>{g}</option>)}</select></label></div>}
         <Err e={err} />{msg && <p className="ok" role="status">{msg}</p>}
         <button className="btn">Create</button>
       </form>
