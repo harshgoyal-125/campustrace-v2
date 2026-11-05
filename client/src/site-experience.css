@@ -17,3 +17,7 @@ html:root:root:root:root:root body.has-experience .center>.auth{width:100%;margi
 html:root:root:root:root:root body.has-experience .shell>.top{margin-bottom:0!important}
 .shell>.site-experience{border:1px solid #ffffff18;border-top:0}.shell>.site-experience .se-stage{border:0;padding-top:30px;padding-bottom:65px;min-height:320px}.shell>.site-experience .se-visual{height:230px}
 @media(max-width:700px){.shell>.site-experience .se-stage{min-height:270px;padding:24px 18px 60px}.shell>.site-experience .se-visual{height:150px}}
+html:root:root:root:root:root body .site-experience :is(h1,h2,h3){color:#ededef!important;-webkit-text-fill-color:#ededef!important;background:none!important;text-shadow:none!important}
+html:root:root:root:root:root body .site-experience :is(h1,h2,h3) em{color:#79797f!important;-webkit-text-fill-color:#79797f!important}
+html:root:root:root:root:root body .site-experience .se-description{color:#a1a1aa!important;-webkit-text-fill-color:#a1a1aa!important}
+html:root:root:root:root:root body .site-experience .rf-status{color:#71717a!important;-webkit-text-fill-color:#71717a!important}
