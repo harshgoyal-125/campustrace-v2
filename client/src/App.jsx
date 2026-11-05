@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { api, setToken, hasToken, openBlob } from './api.js';
 import FxField from './fx.jsx';
+const ReferenceLanding=React.lazy(()=>import('./ReferenceLanding.jsx'));
 
 const ROLE_LABEL = { student: 'Student', coordinator: 'Faculty Coordinator', hod: 'Head of Department', admin: 'Admin' };
 const roleName = (r) => ROLE_LABEL[r] || r;
@@ -128,49 +129,7 @@ function Splash({ onDone }) {
   );
 }
 
-function Landing({ onLogin }) {
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return;
-    const els = document.querySelectorAll('.lp-sec, .landing .cta');
-    els.forEach((el) => el.classList.add('rv'));
-    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('rv-in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-  const steps = [['01', 'Submit', 'A student adds an activity and uploads the certificate as proof.', 'Active', 'submitted'], ['02', 'Review', 'The Faculty Coordinator checks it, then verifies it or sends it back with a reason.', 'Under review', 'submitted'], ['03', 'Report', 'Reports and CSV exports count verified activities only.', 'Successful', 'verified']];
-  const who = [['Students', 'Upload certificates, follow each status, and share a link or QR to your verified items only.'], ['Faculty Coordinators', 'Review the students in your section and group, with their certificates beside each record.'], ['Heads of Department', 'See department-wide verified participation, a per-coordinator breakdown and every student list. Read-only.'], ['Admins', 'Create accounts one by one or from a CSV, set roles and groups, and remove accounts made by mistake.']];
-  return (
-    <div className="landing">
-      <header className="top"><Logo size={36} /><div className="navlinks"><ThemeToggle inline /><button className="btn outline small" onClick={onLogin}>Login</button></div></header>
-      <main className="lp">
-        <section className="lp-hero">
-          <div className="lp-copy">
-            <span className="pill-badge">Student participation platform</span>
-            <h1>Every activity.<em>One verified record.</em></h1>
-            <p className="lead">An uploaded certificate is evidence, not a verified record. CampusTrace gets every activity checked by your college before it counts.</p>
-            <div className="row"><button className="btn big" onClick={onLogin}>Get started</button><a className="ghost big" href="#how">See how it works</a></div>
-            <p className="muted small">Accounts are created by your college administrator.</p>
-          </div>
-          <div className="lp-visual" aria-hidden="true">
-            <div className="reference-sculpture"><span className="sculpt-loop loop-a" /><span className="sculpt-loop loop-b" /><span className="sculpt-loop loop-c" /><div className="sculpt-core"><Mark size={72} /></div></div>
-          </div>
-        </section>
-        <section id="how" className="lp-sec"><p className="eyebrow">How it works</p><h2>From certificate to verified record in three steps</h2>
-          <div className="grid3">{steps.map(([n, t, d, c, k]) => <article key={n} className="card step"><span className="stepno">{n}</span><h3>{t}</h3><p className="muted">{d}</p><span className={'badge ' + k}>{c}</span></article>)}</div></section>
-        <section className="lp-sec"><p className="eyebrow">Who it is for</p><h2>One platform, four roles</h2>
-          <div className="grid4">{who.map(([t, d]) => <article key={t} className="card role"><h3>{t}</h3><p className="muted">{d}</p></article>)}</div></section>
-        <section className="lp-sec"><p className="eyebrow">Status words</p><h2>Every record is always in one of three states</h2>
-          <div className="grid3">
-            <div className="card state ok"><b>Successful</b><span>Verified by a Faculty Coordinator. Counted in reports.</span></div>
-            <div className="card state mid"><b>Active</b><span>Submitted and waiting for review. Not counted yet.</span></div>
-            <div className="card state bad"><b>Failed</b><span>Sent back with a reason. Update the proof and resubmit.</span></div>
-          </div></section>
-        <section className="card cta"><div><h2>Ready to see your record?</h2><p className="muted">Log in with the account your administrator created.</p></div><button className="btn big" onClick={onLogin}>Login</button></section>
-        <footer className="foot">CampusTrace · Team Stack Ninjas · IEEE IGNITE SKIT021</footer>
-      </main>
-    </div>
-  );
-}
+function Landing({onLogin}) { return <React.Suspense fallback={<main className="center"><p>Loading…</p></main>}><ReferenceLanding onLogin={onLogin} Logo={Logo}/></React.Suspense>; }
 
 function Student({ user }) {
   const [list, setList] = useState([]); const [rep, setRep] = useState(null); const [form, setForm] = useState(null); const [tab, setTab] = useState('activities'); const [group, setGroup] = useState('All'); const [err, setErr] = useState('');
@@ -671,8 +630,8 @@ function Main() {
   useEffect(() => { if (hasToken()) api('/auth/me').then((r) => setUser(r.user)).catch(() => setToken('')).finally(() => setReady(true)); }, []);
   if (!ready) return <main className="center"><p className="muted">Loading…</p></main>;
   if (!user) {
-    if (!seen) return <Splash onDone={() => { sessionStorage.setItem('pp_seen', '1'); setReveal(true); setSeen(true); }} />;
-    if (!auth) return <>{reveal && <div className="white-reveal" aria-hidden="true" onAnimationEnd={() => setReveal(false)} />}<Landing onLogin={() => setAuth('login')} /></>;
+    // The reference inspector initialization belongs to the public landing itself.
+    if (!auth) return <><Landing onLogin={() => setAuth('login')} /></>;
     return <Auth onAuth={setUser} onBack={() => setAuth('')} />;
   }
   if (user.mustChangePassword) return <ChangePassword onDone={setUser} />;
