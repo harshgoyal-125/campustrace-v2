@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { api, setToken, hasToken, openBlob } from './api.js';
 import FxField from './fx.jsx';
+const SiteExperience=React.lazy(()=>import('./SiteExperience.jsx'));
 const ReferenceLanding=React.lazy(()=>import('./ReferenceLanding.jsx'));
 
 const ROLE_LABEL = { student: 'Student', coordinator: 'Faculty Coordinator', hod: 'Head of Department', admin: 'Admin' };
@@ -61,13 +62,6 @@ function Auth({ onAuth, onBack }) {
   if (forgot) return <Forgot mail={mail} site={site} onBack={() => setForgot(false)} />;
   return (
     <main className="center split">
-      <aside className="auth-art" aria-hidden="true">
-        <div className="hex"><Mark size={92} /></div>
-        <div className="mile m1"><b>Active</b><span>Waiting for your Faculty Coordinator</span><i><u style={{ width: '45%' }} /></i></div>
-        <div className="mile m2"><b>Successful</b><span>Checked and verified</span><i><u style={{ width: '90%' }} /></i></div>
-        <h2>Every activity.<br />One verified record.</h2>
-        <p>A certificate becomes part of your record only after your college checks it.</p>
-      </aside>
       <form className="card auth" onSubmit={go}>
         <div className="auth-logo"><Mark size={64} /><h1 className="wordmark big">Campus<b>Trace</b></h1></div>
         <p className="muted">Log in to your verified participation record.</p>
@@ -614,7 +608,7 @@ function PublicView({ token }) {
   const [d, setD] = useState(null); const [err, setErr] = useState('');
   useEffect(() => { document.title = 'CampusTrace'; fetch('/api/public/' + encodeURIComponent(token)).then(async (r) => { const j = await r.json(); if (!r.ok) throw new Error(j.error || 'This link is not available'); setD(j); }).catch((x) => setErr(x.message)); }, [token]);
   return (
-    <div className="shell"><header className="top"><Logo size={34} /><div className="navlinks"><ThemeToggle inline /></div></header>
+    <div className="shell"><header className="top"><Logo size={34} /><div className="navlinks"><ThemeToggle inline /></div></header><React.Suspense fallback={null}><SiteExperience embedded Logo={Logo}/></React.Suspense>
       <main className="wrap">
         {err && <section className="glass banner"><div><h2>{err}</h2><p className="muted">The owner may have stopped sharing it.</p></div></section>}
         {!d && !err && <p className="muted">Loading…</p>}
@@ -642,6 +636,7 @@ function Main() {
         <div className="navlinks">{!staff && <><button className="link" aria-current={view === 'main' ? 'page' : undefined} onClick={() => { setView('main'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Home</button></>}
           {staff && <>{user.role === 'coordinator' && <button className="link" aria-current={view === 'main' ? 'page' : undefined} onClick={() => setView('main')}>Review</button>}{user.role === 'coordinator' && <button className="link" aria-current={view === 'add' ? 'page' : undefined} onClick={() => setView('add')}>Add student</button>}<button className="link" aria-current={view === 'reports' || ['admin', 'hod'].includes(user.role) ? 'page' : undefined} onClick={() => setView('reports')}>Reports</button></>}
           <ThemeToggle inline /><Avatar user={user} onProfile={() => setView('profile')} onLogout={() => setAskOut(true)} onChangePw={() => setAskPw(true)} /></div></header>
+      <React.Suspense fallback={null}><SiteExperience embedded Logo={Logo}/></React.Suspense>
       <main className="wrap" key={view}>
         {view === 'profile' && <Profile user={user} onBack={() => setView('main')} onChangePw={() => setAskPw(true)} onLogout={() => setAskOut(true)} />}
         {view !== 'profile' && user.role === 'student' && <Student user={user} />}
@@ -654,4 +649,4 @@ function Main() {
   );
 }
 
-export default function App() { const m = location.pathname.match(/^\/p\/([\w-]+)\/?$/); const r = location.pathname.match(/^\/reset\/([a-f0-9]{64})\/?$/); return <><FxField />{r ? <ResetPage token={r[1]} /> : m ? <PublicView token={m[1]} /> : <Main />}{(r || m) && <ThemeToggle />}</>; }
+export default function App() { const m = location.pathname.match(/^\/p\/([\w-]+)\/?$/); const r = location.pathname.match(/^\/reset\/([a-f0-9]{64})\/?$/); return <><React.Suspense fallback={null}><SiteExperience Logo={Logo}/></React.Suspense><FxField />{r ? <ResetPage token={r[1]} /> : m ? <PublicView token={m[1]} /> : <Main />}{(r || m) && <ThemeToggle />}</>; }
